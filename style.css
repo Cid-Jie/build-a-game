@@ -7,3 +7,9 @@ body {
     background-color: black;
     overflow: hidden;
 }
+
+#start-game {
+    border : 1px solid #000;
+    padding: 12px 28px;
+    border-radius: 12px;
+}

@@ -1,5 +1,6 @@
 // Get the canvas tag
 const canvas = document.getElementById('game-container');
+const startGame = document.getElementById("start-game");
 // Get the 2d context of the canvas
 const ctx = canvas.getContext('2d');
 
@@ -81,6 +82,15 @@ let animationId;
 let score = 0;
 
 /* Functions */
+
+//Function to initialise the game
+function init() {
+    player = new Player(canvas.width / 2, canvas.height / 2, 10, "white");
+    projectiles = [];
+    enemies = [];
+    particles = [];
+    score = 0;
+}
 // function to generate every second a new enemy coming from outside of the screen randomly
 function spawnEnemies() {
     setInterval(() => {
@@ -122,7 +132,6 @@ function spawnEnemies() {
         enemies.push(new Enemy(x, y, radius, color, velocity));
     }, 1000);
 }
-spawnEnemies();
 
 // animate function executed recursively
 function animate() {
@@ -207,12 +216,12 @@ function animate() {
         // end game
         if (distPlayerEnemy - enemy.radius - player.radius <= 0) {
             cancelAnimationFrame(animationId);
+            startGame.innerText = "Restart Game";
         }
         enemy.update();
     });
     drawScore()
 }
-animate();
 
 /* Window Event Listener */
 // click listener to add a new projectile in direction of the mouse pointer
@@ -228,6 +237,13 @@ window.addEventListener('click', (event) => {
     projectiles.push(projectile);
     projectile.draw();
 })
+
+// Start the game
+startGame.addEventListener("click", () => {
+    init();
+    animate();
+    spawnEnemies();
+});
 
 // Function to draw the score
 function drawScore() {
